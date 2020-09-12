@@ -56,7 +56,7 @@ function shuffle(deck) {
   let temporaryValue;
   let randomIndex;
   while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * 51);
+    randomIndex = Math.floor(Math.random() * deck.length - 1);
     currentIndex--;
     // The three steps below allow for the deck to be given a random order, to simulate a deck of cards being shuffled
     temporaryValue = shuffledDeck[currentIndex];
