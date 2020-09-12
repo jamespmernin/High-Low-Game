@@ -75,8 +75,10 @@ function shuffle(deck) {
 
 function greet() {
   console.log("Welcome to High-Low, an amazing card game!")
-  let name = getInput("What's your name?");
-  console.log(`Nice to meet you, ${name}!`);
+  console.log("The goal of the game is to correctly guess whether the next card in a deck of playing cards is a higher, lower, or equal value to the current card.")
+  console.log("If you guess correctly five times, you win! If you do not do so by the time the deck has been exhausted, you lose!")
+  let name = getInput("Let's begin with your name. What is it?");
+  console.log(`Nice to meet you, ${name}! Let's begin!`);
   return name;
 }
 
@@ -100,8 +102,8 @@ function compare(currentCard, nextCard) {
 // 7. If input doesn't equal h or l, tell the user that they need to guess either h or l and that they get no points for this round, then return false.
 
 function guess(currentCard, nextCard) {
-  console.log(`The current card is the ${currentCard.rank} of ${currentCard.suit} with value ${currentCard.value}!`);
-  console.log(`The next card is the ${nextCard.rank} of ${nextCard.suit} with value ${nextCard.value}!`);
+  console.log(`The current card is the ${currentCard.rank} of ${currentCard.suit}!`);
+  // console.log(`The next card is the ${nextCard.rank} of ${nextCard.suit}!`); // To test the game. Make sure this is commented out, or the game won't be much of a challenge!
   let input = getInput("Will the next card be higher than, lower than, or the same as the current card? Type h for higher, l for lower, or s for same");
   if (input.toLowerCase() != 'h' && input.toLowerCase() != 'l' && input.toLowerCase() != 's') {
     console.log("Sorry! You did not enter a valid guess! You need to type h for higher, l for lower, or s for the same.");
@@ -134,7 +136,7 @@ function playGame() {
   let score = 0;
   const winningScore = 5;
   let currentCard = deck.pop();
-  while (score < winningScore || score < deck.length) {
+  while (score < winningScore && winningScore - score < deck.length) {
     let nextCard = deck.pop();
     if (guess(currentCard, nextCard)) {
       score++;
@@ -143,9 +145,8 @@ function playGame() {
       console.log(`Too bad! Your guess was incorrect and you got no points! Your score is still ${score}!`);
     }
     currentCard = nextCard;
-    console.log(score);
   }
-  (deck.length != 0) ? console.log("You won!") : console.log("You're out of cards! You lose!");
+  (score === winningScore) ? console.log(`Congratulations, ${playerName}! You won!`) : console.log(`Too bad, ${playerName}. You lose!`);
 }
 
 playGame();
