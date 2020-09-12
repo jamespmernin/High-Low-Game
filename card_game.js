@@ -23,34 +23,60 @@ function getInput(prompt) {
 function buildDeck() {
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
   const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-
+  const deck = [];
+  for (let i = 0; i < ranks.length; i++) {
+    for (let j = 0; j < suits.length; j++) {
+      let object = {
+        suit: suits[j],
+        rank: ranks[i],
+        value: i
+      };
+      deck.push(object);
+    }
+  }
+  return deck;
 }
 
+// STEP TWO - Shuffling your deck
+// 1. use a function declaration to create a function called shuffle that takes deck as an argument.
+// 2. Inside this function create a variable called "shuffledDeck" that takes deck as its value.
+// 3. Using "let" declare three new variables: currentIndex, whos value should equal the length of the deck array, and two more: temporaryValue and randomIndex, each of which should currently have no value assigned.
+// 4. Create a while loop whos condition is that "currentIndex" does not equal 0, so that we stop looping once we've gone through all 52 cards.
+// 5. Inside the while loop, use the javascript Math.methods to generate a random integer between 0 and "currentIndex"
+// 6. Inside the while loop, decrement current index by 1.
+// 7. Inside the while loop, assign "temporaryValue" with "shuffledDeck" (which is an array) to the [currentIndex].
+// 8. Still inside, assign "shuffledDeck[currentIndex]" a value of shuffledDeck to the [randomIndex]
+// 9. Still inside, assign "shuffledDeck[randomIndex]" a value of "temporaryValue".
+// 10. Review the code from steps 7,8, and 9, and leave a comment explaining what you believe those lines of code are doing as they swap assignments of values between them.
+// 11. Finally, close the while loop and return "shuffledDeck". You should now be able to run shuffle(buildDeck()) in node and see your shuffled deck of cards.
 
+function shuffle(deck) {
+  let shuffledDeck = deck;
+  let currentIndex = deck.length;
+  let temporaryValue;
+  let randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * 51);
+    currentIndex--;
+    // The three steps below allow for the deck to be given a random order, to simulate a deck of cards being shuffled
+    temporaryValue = shuffledDeck[currentIndex];
+    shuffledDeck[currentIndex] = shuffledDeck[randomIndex];
+    shuffledDeck[randomIndex] = temporaryValue;
+  }
+  return shuffledDeck;
+}
 
+// Test the shuffle function
+// console.log(shuffle(buildDeck()));
 
-  // STEP TWO - Shuffling your deck
-  // 1. use a function declaration to create a function called shuffle that takes deck as an argument.
-  // 2. Inside this function create a variable called "shuffledDeck" that takes deck as its value.
-  // 3. Using "let" declare three new variables: currentIndex, whos value should equal the length of the deck array, and two more: temporaryValue and randomIndex, each of which should currently have no value assigned.
-  // 4. Create a while loop whos condition is that "currentIndex" does not equal 0, so that we stop looping once we've gone through all 52 cards.
-  // 5. Inside the while loop, use the javascript Math.methods to generate a random integer between 0 and "currentIndex"
-  // 6. Inside the while loop, decrement current index by 1.
-  // 7. Inside the while loop, assign "temporaryValue" with "shuffledDeck" (which is an array) to the [currentIndex].
-  // 8. Still inside, assign "shuffledDeck[currentIndex]" a value of shuffledDeck to the [randomIndex]
-  // 9. Still inside, assign "shuffledDeck[randomIndex]" a value of "temporaryValue".
-  // 10. Review the code from steps 7,8, and 9, and leave a comment explaining what you believe those lines of code are doing as they swap assignments of values between them.
-  // 11. Finally, close the while loop and return "shuffledDeck". You should now be able to run shuffle(buildDeck()) in node and see your shuffled deck of cards.
+// STEP THREE - Greeting the player
+// 1. Declare a function called greet()
+// 2. Inside that function, declare a variable called "name" and use "getInput()" to welcome the user to the game, ask for their name, and assign their answer.
+// 3. Console.log name
+// 4. Return name
+// 5. Done.
 
-
-  // STEP THREE - Greeting the player
-  // 1. Declare a function called greet()
-  // 2. Inside that function, declare a variable called "name" and use "getInput()" to welcome the user to the game, ask for their name, and assign their answer.
-  // 3. Console.log name
-  // 4. Return name
-  // 5. Done.
-
-
+greet()
 
   // STEP FOUR - comparing cards
   // 1. Declare a function called compare that takes two cards as arguments
