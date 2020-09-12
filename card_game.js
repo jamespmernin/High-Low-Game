@@ -76,7 +76,14 @@ function shuffle(deck) {
 // 4. Return name
 // 5. Done.
 
-greet()
+function greet() {
+  console.log("Welcome to High-Low, an amazing card game!")
+  let name = getInput("What's your name?");
+  console.log(`Nice to meet you, ${name}!`);
+  return name;
+}
+
+greet();
 
   // STEP FOUR - comparing cards
   // 1. Declare a function called compare that takes two cards as arguments
