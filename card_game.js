@@ -21,8 +21,8 @@ function getInput(prompt) {
 // 7. After your loops, return deck, which should now return an array full of card objects if you were to run buildDeck().
 
 function buildDeck() {
-  const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
-  const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
+  const ranks = ['Ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King'];
   const deck = [];
   for (let i = 0; i < ranks.length; i++) {
     for (let j = 0; j < suits.length; j++) {
@@ -66,9 +66,6 @@ function shuffle(deck) {
   return shuffledDeck;
 }
 
-// Test the shuffle function
-// console.log(shuffle(buildDeck()));
-
 // STEP THREE - Greeting the player
 // 1. Declare a function called greet()
 // 2. Inside that function, declare a variable called "name" and use "getInput()" to welcome the user to the game, ask for their name, and assign their answer.
@@ -83,34 +80,72 @@ function greet() {
   return name;
 }
 
-greet();
+//greet();
 
-  // STEP FOUR - comparing cards
-  // 1. Declare a function called compare that takes two cards as arguments
-  // 2. Return the value property of the first card minus the value property of the second card.
+// STEP FOUR - comparing cards
+// 1. Declare a function called compare that takes two cards as arguments
+// 2. Return the value property of the first card minus the value property of the second card.
 
+function compare(currentCard, nextCard) {
+  return currentCard.value - nextCard.value;
+}
 
+// STEP FIVE - Respond to User Guess
+// 1. Declare a function called guess that takes two cards as arguments
+// 2. console.log the rank and suit of the current card
+// 3. Declare a variable called "input" that uses getInput() to ask the user if they think the next card will be higher (h) or lower (l) than their current card and stores the user's response.
+// 4. Use a conditional statement to see if "input" equals "h" or "l".
+// 5. If input equals h, return an expression that checks if the outcome of the compare function (using the same arguments as you used for guess) is a negative number.
+// 6. If input equals l, check and see if it's a positive number.
+// 7. If input doesn't equal h or l, tell the user that they need to guess either h or l and that they get no points for this round, then return false.
 
-  // STEP FIVE - Respond to User Guess
-  // 1. Declare a function called guess that takes two cards as arguments
-  // 2. console.log the rank and suit of the current card
-  // 3. Declare a variable called "input" that uses getInput() to ask the user if they think the next card will be higher (h) or lower (l) than their current card and stores the user's response.
-  // 4. Use a conditional statement to see if "input" equals "h" or "l".
-  // 5. If input equals h, return an expression that checks if the outcome of the compare function (using the same arguments as you used for guess) is a negative number.
-  // 6. If input equals l, check and see if it's a positive number.
-  // 7. If input doesn't equal h or l, tell the user that they need to guess either h or l and that they get no points for this round, then return false.
+function guess(currentCard, nextCard) {
+  console.log(`The current card is the ${currentCard.rank} of ${currentCard.suit} with value ${currentCard.value}!`);
+  console.log(`The next card is the ${nextCard.rank} of ${nextCard.suit} with value ${nextCard.value}!`);
+  let input = getInput("Will the next card be higher than, lower than, or the same as the current card? Type h for higher, l for lower, or s for same");
+  if (input.toLowerCase() != 'h' && input.toLowerCase() != 'l' && input.toLowerCase() != 's') {
+    console.log("Sorry! You did not enter a valid guess! You need to type h for higher, l for lower, or s for the same.");
+    return false;
+  } else if (input.toLowerCase() === 'h') {
+    return (compare(currentCard, nextCard) < 0);
+  } else if (input.toLowerCase() === 'l') {
+    return (compare(currentCard, nextCard) > 0);
+  } else {
+    return (compare(currentCard, nextCard) === 0);
+  }
+}
 
+// STEP SIX - Let's play!
+// 1. Declare a function called playGame
+// 2. Declare a variable called deck (it's okay to reuse -- remember scope!) that takes the result of the shuffle function. Remember that the shuffle function needs to take the results one of our other functions as its argument...
+// 3. Declare a variable called playerName that takes the result of the greet function as its value.
+// 4. Using let, declare a score variable that's currently set to the number zero
+// 5. Use an array method on deck to remove the last object in deck. using let, declare a variable called currentCard and assign it this value.
+// 6. Create a while loop whos conditions are that the score is less than five or less than the amount of items still in the deck array.
+// 7. Inside the while loop, use an array method on deck to remove the last object and assign that value to a variable named nextCard.
+// 8. Inside the while loop, create a conditional statement. If the outcome of guess is true, increment the score by 1, congratulate the user, and tell them their score. If it's false, tell them they were wrong and got no points.
+// 9. Close the conditional statement and assign nextCard to currentCard. You may have to write this as the type of variable that's always global...
+// 10. Close the while loop and use a ternary statement that checks if the length of the deck array has reached zero. If it has not, tell the user that they won. If it has reached zero, tell them that they're out of cards and they lost.
+// 11. Write a line of code to execute the playGame function.
 
+function playGame() {
+  let deck = shuffle(buildDeck());
+  let playerName = greet();
+  let score = 0;
+  const winningScore = 5;
+  let currentCard = deck.pop();
+  while (score < winningScore || score < deck.length) {
+    let nextCard = deck.pop();
+    if (guess(currentCard, nextCard)) {
+      score++;
+      console.log(`Congratulations! Your guess was correct! Your score is ${score}!`);
+    } else {
+      console.log(`Too bad! Your guess was incorrect and you got no points! Your score is still ${score}!`);
+    }
+    currentCard = nextCard;
+    console.log(score);
+  }
+  (deck.length != 0) ? console.log("You won!") : console.log("You're out of cards! You lose!");
+}
 
-  // STEP SIX - Let's play!
-  // 1. Declare a function called playGame
-  // 2. Declare a variable called deck (it's okay to reuse -- remember scope!) that takes the result of the shuffle function. Remember that the shuffle function needs to take the results one of our other functions as its argument...
-  // 3. Declare a variable called playerName that takes the result of the greet function as its value.
-  // 4. Using let, declare a score variable that's currently set to the number zero
-  // 5. Use an array method on deck to remove the last object in deck. using let, declare a variable called currentCard and assign it this value.
-  // 6. Create a while loop whos conditions are that the score is less than five or less than the amount of items still in the deck array.
-  // 7. Inside the while loop, use an array method on deck to remove the last object and assign that value to a variable named nextCard.
-  // 8. Inside the while loop, create a conditional statement. If the outcome of guess is true, increment the score by 1, congratulate the user, and tell them their score. If it's false, tell them they were wrong and got no points.
-  // 9. Close the conditional statement and assign nextCard to currentCard. You may have to write this as the type of variable that's always global...
-  // 10. Close the while loop and use a ternary statement that checks if the length of the deck array has reached zero. If it has not, tell the user that they won. If it has reached zero, tell them that they're out of cards and they lost.
-  // 11. Write a line of code to execute the playGame function.
+playGame();
